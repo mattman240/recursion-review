@@ -5,35 +5,33 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
-  // your code here
+
   var output = [];
   
-  var classFinder = function(className, currentElement) {
+  var classFinder = function(currentElement) {
     var currentClasses = currentElement.classList;
     var children = currentElement.childNodes;
-    console.log(currentClasses);
-    
+
+    var pushed = false;
     for (var currentClass in currentClasses) {
-      console.log('current Class:', currentClass, 'className :', className);
-      if (currentClasses[currentClass] === className) {
+
+      if (currentClasses[currentClass] === className && !pushed) {
         output.push(currentElement);
+        pushed = true;
       }
     }
     
     if (children !== undefined) {
-      // console.log('test')
       for (var key in children) {
         var currentChild = children[key];
         
-        classFinder(className, currentChild);
+        classFinder(currentChild);
       }
     }
     
   };
   
-  classFinder(className, document);
-  console.log('output :', output);
-  console.log('expected :', document.getElementsByClassName(className));
+  classFinder(document.body);
   return output;
   
 };
